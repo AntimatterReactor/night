@@ -18,9 +18,10 @@
  
 <p align="center">
 Night is an interpreted dynamically typed language with a strong control on types.
+</p>
 
+<p align="center">
 Night provides compile time definition and type checking, in addition with static types. It can also treat types as first class citizens, allowing the user to have more control over compile time type checking.
-
 </p>
 
 ## Current Progress
