@@ -2,19 +2,28 @@
   <img src="https://github.com/DynamicSquid/night/blob/master/docs/media/night-logo-black.png"/>
 </p>
 
-# Night
+<p align="center">
+  <h1>Night</h1>
+
+  <a href="../../actions/actions">
+    <img alt="Tests Passing" src="../../workflows/CMake/badge.svg" />
+  </a>
+  <a href="https://github.com/DynamicSquid/night/issues">
+    <img alt="Issues" src="https://img.shields.io/github/issues/DynamicSquid/night?color=0088ff" />
+  </a>
+  <a href="https://github.com/anuraghazra/github-readme-stats/pulls">
+    <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/DynamicSquid/night?color=0088ff" />
+  </a>
 
 Night is an interpreted dynamically typed language with a strong control on types.
 
 Night provides compile time definition and type checking, in addition with static types. It can also treat types as first class citizens, allowing the user to have more control over compile time type checking.
 
----
+</p>
 
 ## Current Progress
 
 Fixing website :(
-
----
 
 ## Getting Started
 
@@ -24,14 +33,18 @@ Currently, Night only supports a source build. Binaries for Windows and Linux ar
 
 ### Building from Source
 
-1. Install Dependancies
+Currently, Night is unbuildable on platforms like debian and ubuntu because of the default gcc version they have which is gcc-9
+
+##### 1. Install Dependencies
 
 `g++` (version 10+)<br>
 `cmake` (version 3+)
 
-2. Clone Repository
+Note: you need to put them on PATH in Windows
 
-If you would like to clone Night and Dusk (recommend), be sure to fetch it's submodule:
+##### 2. Clone Repository
+
+If you would like to clone Night and Dusk (recommended), be sure to fetch it's submodule:
 
 ```
 git clone --recurse-submodules https://github.com/DynamicSquid/night.git
@@ -45,7 +58,7 @@ git clone https://github.com/DynamicSquid/night.git
 cd night
 ```
 
-3. Compile Night
+##### 3. Compile Night
 
 Windows:
 
@@ -61,25 +74,25 @@ cmake -G "Unix Makefiles" .
 cmake --build .
 ```
 
-4. Run Night
+##### 4. Run Night
 
-Create a file called `source.night` where you'll write your code.
+First, create a file called `source.night` where you'll write your code.
 
 Windows:
+
+Windows (cmd):
 
 ```
 night source.night
 ```
 
-Linux:
+Linux (bash) and Powershell:
 
 ```
 ./night source.night
 ```
 
 And you're done!
-
----
 
 ## Contributing
 
