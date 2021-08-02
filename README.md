@@ -5,14 +5,14 @@
 <h1 align="center">Night</h1>
 
 <p align="center">
-  <a href="../../actions/actions">
+  <a href="../../actions">
     <img alt="Tests Passing" src="../../workflows/CMake/badge.svg" />
   </a>
   <a href="https://github.com/DynamicSquid/night/issues">
-    <img alt="Issues" src="https://img.shields.io/github/issues/DynamicSquid/night?color=0088ff" />
+    <img alt="Issues" src="https://img.shields.io/github/issues/DynamicSquid/night?color=d84b20" />
   </a>
   <a href="https://github.com/anuraghazra/github-readme-stats/pulls">
-    <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/DynamicSquid/night?color=0088ff" />
+    <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/DynamicSquid/night?color=90c62b" />
   </a>
 </p>
  
