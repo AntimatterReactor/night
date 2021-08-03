@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="https://github.com/DynamicSquid/night/blob/master/docs/media/night-logo-black.png"/>
+  <img src="https://github.com/DynamicSquid/night/blob/master/docs/media/night-logo-black.png" width=89 height=100/>
 </p>
 
-<h1 align="center">Night</h1>
+# Night
 
-<p align="center">
+<p>
   <a href="../../actions">
     <img alt="Tests Passing" src="../../workflows/CMake/badge.svg" />
   </a>
@@ -12,17 +12,13 @@
     <img alt="Issues" src="https://img.shields.io/github/issues/DynamicSquid/night?color=d84b20" />
   </a>
   <a href="https://github.com/DynamicSquid/night/pulls">
-    <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/DynamicSquid/night?color=90c62b" />
+    <img alt="Pull Requests" src="https://img.shields.io/github/issues-pr/DynamicSquid/night?color=90c62b" />
   </a>
 </p>
  
-<p align="center">
 Night is an interpreted dynamically typed language with a strong control on types.
-</p>
 
-<p align="center">
 Night provides compile time definition and type checking, in addition with static types. It can also treat types as first class citizens, allowing the user to have more control over compile time type checking.
-</p>
 
 ## Current Progress
 
