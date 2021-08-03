@@ -6,7 +6,7 @@
 
 <p>
   <a href="../../actions">
-    <img alt="Tests Passing" src="../../workflows/CMake/badge.svg" />
+    <img src="../../workflows/CMake/badge.svg" />
   </a>
   <a href="https://github.com/DynamicSquid/night/issues">
     <img alt="Issues" src="https://img.shields.io/github/issues/DynamicSquid/night?color=d84b20" />
