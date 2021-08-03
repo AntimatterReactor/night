@@ -1,4 +1,4 @@
-<p align="center">
+<p>
   <img src="https://github.com/DynamicSquid/night/blob/master/docs/media/night-logo-black.png" width=89 height=100/>
 </p>
 
