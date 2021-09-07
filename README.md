@@ -34,14 +34,14 @@ Currently, Night only supports a source build. Binaries for Windows and Linux ar
 
 Currently, Night is unbuildable on platforms like debian and ubuntu because of the default gcc version they have which is gcc-9
 
-##### 1. Install Dependencies
+#### 1. Install Dependencies
 
 `g++` (version 10+)<br>
 `cmake` (version 3+)
 
 Note: you need to put them on PATH in Windows
 
-##### 2. Clone Repository
+#### 2. Clone Repository
 
 If you would like to clone Night and Dusk (recommended), be sure to fetch it's submodule:
 
@@ -57,7 +57,7 @@ git clone https://github.com/DynamicSquid/night.git
 cd night
 ```
 
-##### 3. Compile Night
+#### 3. Compile Night
 
 Windows:
 
@@ -73,7 +73,7 @@ cmake -G "Unix Makefiles" .
 cmake --build .
 ```
 
-##### 4. Run Night
+#### 4. Run Night
 
 First, create a file called `source.night` where you'll write your code.
 
