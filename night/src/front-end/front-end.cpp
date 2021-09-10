@@ -1,13 +1,25 @@
-#include "../../include/front-end/front-end.hpp"
-#include "../../include/back-end/interpreter.hpp"
-#include "../../include/back-end/parser.hpp"
-#include "../../include/back-end/lexer.hpp"
-#include "../../include/back-end/token.hpp"
-#include "../../include/error.hpp"
+#include "front-end/front-end.hpp"
+#include "back-end/interpreter.hpp"
+#include "back-end/parser.hpp"
+#include "back-end/lexer.hpp"
+#include "back-end/token.hpp"
+#include "error.hpp"
+#include "cmakedef.hpp"
 
 #include <iostream>
 #include <string>
 #include <vector>
+
+namespace night
+{
+	std::string const help_message =
+" \
+Usage: night <file>|<options>\n\
+Options:\n\
+    --help	Displays this message and exit\n\
+    --version 	Displays night's current version\n\
+";
+}
 
 void FrontEnd(int argc, char** argv)
 {
@@ -19,13 +31,12 @@ void FrontEnd(int argc, char** argv)
 
 	if (std::string(argv[1]) == "--help")
 	{
-		std::cout << "--version displays current version\n"
-				  << "<file>    runs <file>\n";
+		std::cout << night::help_message;
 		return;
 	}
 	if (std::string(argv[1]) == "--version")
 	{
-		std::cout << "night v0.0.0";
+		std::cout << "night v" << night_VERSION_MAJOR << "." << night_VERSION_MINOR << "." << night_VERSION_PATCH << "\n";
 		return;
 	}
 

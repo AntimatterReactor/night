@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include <cassert>
 #include <string>
+#include <string_view>
 
 #define NIGHT_PREPROCESS_ERROR(msg, link) \
 	night::error(__FILE__, __LINE__, night::error_preprocess, {}, msg, {}, link)
