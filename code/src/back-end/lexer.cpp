@@ -38,17 +38,15 @@ Token Lexer::eat(const bool go_to_next_line)
 			}
 
 			// account for backslash quotes
-			if (i < code_line.length() - 1 && code_line[i] == '\\' && code_line[i + 1] == '"')
+			if (i < code_line.length() - 1 && code_line[i] == '\\')
 			{
-				str.push_back('\"');
+				str.push_back(escape_char(code_line[i + 1]));
 				i += 2;
 			}
 			else str += code_line[i++];
 		}
 
 		++i;
-
-		replace_escape_chars(str);
 
 		return curr = { loc, TokenType::STR_L, str };
 	}
@@ -167,35 +165,6 @@ bool Lexer::next_token(const bool go_to_next_line) noexcept
 	}
 
 	return true;
-}
-
-void Lexer::replace_escape_chars(std::string& token) const noexcept
-{
-	std::size_t pos = token.find('\\');
-	while (pos < token.length() - 1)
-	{
-		char c = token[pos + 1];
-
-		switch (c)
-		{
-#define CASE(x, s) case x: c = s; break
-			CASE('a', '\a');
-			CASE('b', '\b');
-			CASE('f', '\f');
-			CASE('n', '\n');
-			CASE('r', '\r');
-			CASE('t', '\t');
-			CASE('v', '\v');
-			case '\\':
-			case '\'': token.erase(pos, 1); [[fallthrough]];
-			default: c = 0; break;
-		}
-#undef CASE
-		if (c) token.replace(pos, 2, 1, c);
-
-		pos = token.find('\\', pos + 1);
-	}
-
 }
 
 std::unordered_map<char, std::vector<std::pair<char, TokenType> > > const Lexer::symbols{
