@@ -1,2 +1,5 @@
 print("\'ello, \n\"World!\"")
 print("\n")
+let i = 12
+print(str(i))
+print("\n")
