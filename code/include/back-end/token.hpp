@@ -43,6 +43,11 @@ struct Token
 	TokenType type;
 	std::string data;
 
+	Token() = default;
+
+	Token(Location _loc, TokenType _type, std::string _data = "")
+		: loc(_loc), type(_type), data(std::move(_data)) {}
+
 	constexpr bool is_value() const noexcept
 	{
 		return type == TokenType::BOOL_L  || type == TokenType::INT_L ||
@@ -52,6 +57,9 @@ struct Token
 
 	constexpr bool is_operator() const noexcept
 	{ return type == TokenType::UNARY_OP || type == TokenType::BINARY_OP; }
+
+	constexpr bool feol() const noexcept { return type == TokenType::EOL; }
+	constexpr bool feof() const noexcept { return type == TokenType::_EOF; }
 
 	static Token const _EOL;
 	static Token const _EOF;

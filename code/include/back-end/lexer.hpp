@@ -15,7 +15,7 @@ public:
 
 public:
 	Token eat(const bool go_to_next_line);
-	Token peek(const bool go_to_next_line) noexcept;
+	Token peek(const bool go_to_next_line);
 
 	Token get_curr() const noexcept;
 	Location get_loc() const noexcept;
@@ -44,7 +44,7 @@ private:
 	}
 
 private:
-	std::fstream code_file;
+	std::ifstream code_file;
 	Location loc;
 
 	std::string code_line;
