@@ -14,27 +14,23 @@ int main(int argc, char* argv[])
 
 	if (argc == 2 && argv[1][0] == '-')
 	{
-		if (argv_s[1] == "--help"	 || argv_s[1] == "-h")
+		if (argv_s[1] == "--help" || argv_s[1] == "-h")
 		{
-			std::cout << "usage: night <file>|<options>\n"
+			std::clog << "usage: night <file>|<options>\n"
 					  << "options:\n"
 					  << "    --help     displays this message and exit\n"
 					  << "    --version  displays night's current version\n";
-			return 0;
 		}
-		if (argv_s[1] == "--version" || argv_s[1] == "-v")
+		else if (argv_s[1] == "--version" || argv_s[1] == "-v")
 		{
-			std::cout << "night v"
+			std::clog << "night v"
 					  << night_VERSION_MAJOR << '.'
 					  << night_VERSION_MINOR << '.'
 					  << night_VERSION_PATCH << '\n';
-			return 0;
 		}
-
-		std::cout << "unknown option: " << argv[1] << '\n' << more_info;
-		return 0;
+		else std::clog << "unknown option: " << argv[1] << '\n' << more_info;
 	}
-	if (argc == 2 || (argc == 3 && argv[2][0] == '-'))
+	else if (argc == 2 || (argc == 3 && argv[2][0] == '-'))
 	{
 		if (argv_s[2] == "-debug")
 			night::error::DEBUG = true;
@@ -43,16 +39,14 @@ int main(int argc, char* argv[])
 			front_end(argv[1]);
 		}
 		catch (night::error const& e) {
-			std::cout << e.what();
+			std::cerr << e.what();
 		}
 		catch (std::exception const& e) {
-			std::cout << "Oh no! We've come across an unexpected error:\n\n    " << e.what() <<
+			std::cerr << "Oh no! We've come across an unexpected error:\n\n    " << e.what() <<
 				"\n\nPlease submit an issue on the GitHub page:\nhttps://github.com/dynamicsquid/night\n";
 		}
-
-		return 0;
 	}
+	else std::clog << "invalid number of arguments\n" << more_info;
 
-	std::cout << "invalid number of arguments\n" << more_info;
 	return 0;
 }
