@@ -9,8 +9,6 @@
 #include <tuple>
 #include <vector>
 #include <string>
-#include <unordered_set>
-#include <functional>
 
 #define NIGHT_COMPILE_ERROR(msg, fix) \
 	night::error(__FILE__, __LINE__, night::error_compile, lexer.get_loc(), msg, fix)

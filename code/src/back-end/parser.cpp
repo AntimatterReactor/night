@@ -5,7 +5,6 @@
 #include "error.hpp"
 #include "util.hpp"
 
-#include <functional>
 #include <memory>
 #include <algorithm>
 #include <iterator>
