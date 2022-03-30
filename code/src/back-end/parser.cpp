@@ -1147,10 +1147,7 @@ Parser::parse_expression(
 	}
 }
 
-bool
-Parser::higher_precedence(
-	std::string const& op1,
-	std::string const& op2) const
+bool Parser::higher_precedence( std::string const& op1, std::string const& op2) const
 {
 	std::vector<std::unordered_set<std::string> > const operators{
 		{ ".." },

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "lexer.hpp"
-#include "token.hpp"
 #include "stmt.hpp"
 #include "check.hpp"
 
@@ -20,9 +19,7 @@ public:
 	using ParserScope = Scope<CheckVariable>;
 
 public:
-	Parser(
-		Lexer& lexer
-	);
+	Parser(Lexer& lexer);
 
 public:
 	/*
@@ -32,9 +29,7 @@ public:
 	 * lexer should be at first token of statement; ends at first token of next
 	 * statement
 	 */
-	Stmt parse_statement(
-		ParserScope& scope
-	);
+	Stmt parse_statement(ParserScope& scope);
 
 	Stmt parse_stmt_let(ParserScope& scope);
 	Stmt parse_stmt_var(ParserScope& scope);
@@ -64,9 +59,9 @@ private:
 	 * lexer should be at token before opening bracket; ends at first token of body
 	 */
 	std::shared_ptr<ExprNode> parse_condition(
-		ParserScope& scope,
-		std::string const& stmt_format
-	);
+			ParserScope& scope,
+			std::string const& stmt_format
+		);
 
 	/*
 	 * parses arguments
@@ -74,16 +69,15 @@ private:
 	 *
 	 * lexer should be at opening bracket token; ends at closing bracket
 	 */
-	std::pair<ExprContainer, std::vector<TypeContainer> > parse_arguments(
-		ParserScope& scope,
-		std::string_view func_name
-	);
+	std::pair<ExprContainer, std::vector<TypeContainer> >
+	parse_arguments(ParserScope& scope, std::string_view func_name);
 
 	/*
 	 * lexer starts at first token of expression
 	 * ends at the first non-expression token of same line
 	 */
-	std::tuple<std::shared_ptr<ExprNode>, TypeContainer> parse_expression(
+	std::tuple<std::shared_ptr<ExprNode>, TypeContainer>
+	parse_expression(
 		ParserScope& scope,
 		TypeContainer const& required_types = {}
 	);
@@ -107,15 +101,14 @@ private:
 		std::string const& func_name
 	);
 
-	std::string types_as_str(
-		TypeContainer const& var_types_set
-	) const;
+	std::string types_as_str( TypeContainer const& var_types_set) const;
 
 	inline void throw_binary_type_err(
 		BinaryOPNode const& op,
 		TypeContainer const& types,
 		std::string const& side,
-		std::string const& used_types) const;
+		std::string const& used_types
+	) const;
 
 private:
 	Lexer& lexer;
