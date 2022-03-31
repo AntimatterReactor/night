@@ -10,7 +10,7 @@ night::error::error(
 	Location const& _loc, std::string const& _msg, std::string const& _fix)
 	: type(_type), loc(_loc), msg(_msg), fix(_fix)
 {
-	if (this->DEBUG)
+	if (debug_flag)
 		std::cout << debug_file << '\n' << debug_line << "\n\n";
 
 	if (type == night::error_preprocess)
@@ -85,5 +85,4 @@ std::string night::error::what() const
 	return output.str();
 }
 
-
-bool night::error::DEBUG = false;
+bool night::error::debug_flag = false;

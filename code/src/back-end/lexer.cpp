@@ -7,7 +7,7 @@
 #include <vector>
 #include <unordered_map>
 
-Lexer::Lexer(std::string_view file_name, const bool main_file [[maybe_unused]])
+Lexer::Lexer(std::string_view file_name, bool const main_file [[maybe_unused]])
 	: code_file(file_name.data()), loc({ file_name.data(), 1, 0 }), i(0)
 {
 	if (!code_file.is_open())
@@ -16,7 +16,7 @@ Lexer::Lexer(std::string_view file_name, const bool main_file [[maybe_unused]])
 	getline(code_file, code_line);
 }
 
-Token Lexer::eat(const bool go_to_next_line)
+Token Lexer::eat(bool const go_to_next_line)
 {
 	if (!next_token(go_to_next_line))
 		return curr = go_to_next_line ? Token::_EOF : Token::_EOL;
@@ -121,7 +121,7 @@ Token Lexer::eat(const bool go_to_next_line)
 		code_line[i] == '\'' ? "did you mean to use double quotations `\"`?" : "");
 }
 
-Token Lexer::peek(const bool go_to_next_line) noexcept
+Token Lexer::peek(bool const go_to_next_line)
 {
 	auto const tmp_loc = loc;
 	auto const tmp_code_ln = code_line;

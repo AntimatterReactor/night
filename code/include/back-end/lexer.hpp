@@ -11,11 +11,11 @@
 class Lexer
 {
 public:
-	Lexer(std::string_view file_name, const bool main_file);
+	Lexer(std::string_view file_name, bool const main_file);
 
 public:
-	Token eat(const bool go_to_next_line);
-	Token peek(const bool go_to_next_line) noexcept;
+	Token eat(bool const go_to_next_line);
+	Token peek(bool const go_to_next_line);
 
 	Token get_curr() const noexcept;
 	Location get_loc() const noexcept;
