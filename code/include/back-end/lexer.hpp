@@ -26,10 +26,25 @@ private:
 
 	// when a string token has been scanned, this function is called to replace
 	// escape strings with escape characters
-	void replace_escape_chars(std::string& token) const noexcept;
+	static constexpr char escape_char(const char c) noexcept
+	{
+		switch (c)
+		{
+#define CASE(x, s) case x: return s
+		CASE('a', '\a');
+		CASE('b', '\b');
+		CASE('f', '\f');
+		CASE('n', '\n');
+		CASE('r', '\r');
+		CASE('t', '\t');
+		CASE('v', '\v');
+		default: return c;
+		}
+#undef CASE
+	}
 
 private:
-	std::fstream code_file;
+	std::ifstream code_file;
 	Location loc;
 
 	std::string code_line;

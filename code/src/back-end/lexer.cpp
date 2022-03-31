@@ -13,11 +13,13 @@ Lexer::Lexer(std::string_view file_name, bool const main_file [[maybe_unused]])
 	if (!code_file.is_open())
 		throw NIGHT_PREPROCESS_ERROR("file '" + loc.file + "' could not be opened");
 
-	getline(code_file, code_line);
+	std::getline(code_file, code_line);
 }
 
 Token Lexer::eat(bool const go_to_next_line)
 {
+	std::string tok_data;
+
 	if (!next_token(go_to_next_line))
 		return curr = go_to_next_line ? Token::_EOF : Token::_EOL;
 
@@ -28,65 +30,60 @@ Token Lexer::eat(bool const go_to_next_line)
 	{
 		++i;
 
-		std::string str;
 		while (code_line[i] != '"')
 		{
 			if (i == code_line.length() && !next_line()) {
 				throw night::error(
 					__FILE__, __LINE__, night::error_compile, loc,
-					"expected closing quotes for string '" + str + "'", "");
+					"expected closing quotes for string '" + tok_data + "'", "");
 			}
 
 			// account for backslash quotes
-			if (i < code_line.length() - 1 && code_line[i] == '\\' && code_line[i + 1] == '"')
+			if (i < code_line.length() - 1 && code_line[i] == '\\')
 			{
-				str.push_back('\"');
+				tok_data.push_back(escape_char(code_line[i + 1]));
 				i += 2;
 			}
-			else str += code_line[i++];
+			else tok_data += code_line[i++];
 		}
 
 		++i;
 
-		replace_escape_chars(str);
-
-		return curr = { loc, TokenType::STR_L, str };
+		return curr = { loc, TokenType::STR_L, tok_data };
 	}
 
 	// scan keywords
 	if (std::isalpha(code_line[i]))
 	{
-		std::string keyword;
 		while (i < code_line.length() && (std::isalpha(code_line[i]) || code_line[i] == '_'))
-			keyword += code_line[i++];
+			tok_data += code_line[i++];
 
-		auto it = keywords.find(keyword);
-		return curr = it != keywords.end()
-			? Token{ loc, it->second,	  keyword }
-			: Token{ loc, TokenType::VAR, keyword };
+		auto it = keywords.find(tok_data);
+		return curr = { loc,
+			it != keywords.end() ? it->second : TokenType::VAR,
+			tok_data };
 	}
 
 	// scan numbers
 	if (std::isdigit(code_line[i]))
 	{
-		std::string number;
 		while (i < code_line.length() && std::isdigit(code_line[i]))
-			number += code_line[i++];
+			tok_data += code_line[i++];
 
 		// scan decimal points
 		if (i < code_line.length() - 1 && code_line[i] == '.' &&
 			std::isdigit(code_line[i + 1]))
 		{
-			number.push_back('.');
+			tok_data.push_back('.');
 
 			++i;
 			while (i < code_line.length() && std::isdigit(code_line[i]))
-				number += code_line[i++];
+				tok_data += code_line[i++];
 
-			return curr = { loc, TokenType::FLOAT_L, number };
+			return curr = { loc, TokenType::FLOAT_L, tok_data };
 		}
 
-		return curr = { loc, TokenType::INT_L, number };
+		return curr = { loc, TokenType::INT_L, tok_data };
 	}
 
 	// scan negative
@@ -106,7 +103,7 @@ Token Lexer::eat(bool const go_to_next_line)
 
 			if (i < code_line.length() - 1 && code_line[i + 1] == c)
 			{
-				std::string tok_data({ code_line[i], c });
+				tok_data = { code_line[i], c };
 
 				i += 2;
 
@@ -118,7 +115,7 @@ Token Lexer::eat(bool const go_to_next_line)
 	throw night::error(
 		__FILE__, __LINE__, night::error_compile, loc,
 		std::string("unknown symbol '") + code_line[i] + "'",
-		code_line[i] == '\'' ? "did you mean to use double quotations `\"`?" : "");
+		code_line[i] == '\'' ? "did you mean to use double quotations `\"` ?" : "");
 }
 
 Token Lexer::peek(bool const go_to_next_line)
@@ -167,35 +164,6 @@ bool Lexer::next_token(const bool go_to_next_line) noexcept
 	}
 
 	return true;
-}
-
-void Lexer::replace_escape_chars(std::string& token) const noexcept
-{
-	std::size_t pos = token.find('\\');
-	while (pos < token.length() - 1)
-	{
-		char c = token[pos + 1];
-
-		switch (c)
-		{
-#define CASE(x, s) case x: c = s; break
-			CASE('a', '\a');
-			CASE('b', '\b');
-			CASE('f', '\f');
-			CASE('n', '\n');
-			CASE('r', '\r');
-			CASE('t', '\t');
-			CASE('v', '\v');
-			case '\\':
-			case '\'': token.erase(pos, 1); [[fallthrough]];
-			default: c = 0; break;
-		}
-#undef CASE
-		if (c) token.replace(pos, 2, 1, c);
-
-		pos = token.find('\\', pos + 1);
-	}
-
 }
 
 std::unordered_map<char, std::vector<std::pair<char, TokenType> > > const Lexer::symbols{

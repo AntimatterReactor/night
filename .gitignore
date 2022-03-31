@@ -3,8 +3,9 @@ CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
 Makefile
-autobuild.sh
 compile_commands.json
+
+tests/*dump*
 
 code/include/cmakedef.hpp
 

@@ -1,8 +1,7 @@
 #pragma once
 
-#include "../error.hpp"
+#include "error.hpp"
 
-#include <iostream>
 #include <variant>
 #include <memory>
 #include <string>
@@ -12,8 +11,6 @@
 struct ExprNode;
 
 using ExprContainer = std::vector<std::shared_ptr<ExprNode> >;
-
-
 
 struct ValueLiteral
 {
@@ -30,15 +27,8 @@ struct ValueLiteral
 	> data;
 };
 
-struct ValueArray
-{
-	ExprContainer elem_exprs;
-};
-
-struct ValueVar
-{
-	std::string name;
-};
+struct ValueArray { ExprContainer elem_exprs; };
+struct ValueVar { std::string name; };
 
 struct ValueCall
 {
@@ -78,27 +68,43 @@ struct ExprNode
 {
 	Location loc;
 
-	enum {
+	enum ExNTypes {
 		LITERAL, ARRAY, VARIABLE, CALL,
 		UNARY_OP, BINARY_OP
 	} type;
 
-	std::variant<
+	typedef std::variant<
 		ValueCall,
 		ValueVar,
 		ValueArray,
 		ValueLiteral,
 		UnaryOPNode,
 		BinaryOPNode
-	> data;
+	> ExNDataTypes;
+
+	ExNDataTypes data;
+
+	ExprNode() = default;
+
+	ExprNode(Location _loc, ExNTypes _type, ExNDataTypes _data)
+		: loc(_loc), type(_type), data(_data) {}
 
 	// returns right or value of expr_node
-	std::shared_ptr<ExprNode>& travel_ast();
+	std::shared_ptr<ExprNode>& travel_ast() noexcept
+	{
+		assert(type == ExprNode::UNARY_OP || type == ExprNode::BINARY_OP);
 
-	bool is_value() const;
+		return type == ExprNode::UNARY_OP
+			? std::get<UnaryOPNode>(data).value
+			: std::get<BinaryOPNode>(data).right;
+	}
+
+	constexpr bool is_value() const noexcept
+	{
+		return type == ExprNode::LITERAL  || type == ExprNode::ARRAY ||
+			   type == ExprNode::VARIABLE || type == ExprNode::CALL;
+	}
 };
-
-
 
 struct Stmt;
 
@@ -124,10 +130,7 @@ struct StmtAssign
 	std::shared_ptr<ExprNode> assign_expr;
 };
 
-struct StmtMethod
-{
-	std::shared_ptr<ExprNode> assign_expr;
-};
+struct StmtMethod { std::shared_ptr<ExprNode> assign_expr; };
 
 struct StmtIfConditional
 {
@@ -135,10 +138,7 @@ struct StmtIfConditional
 	std::vector<Stmt> body;
 };
 
-struct StmtIf
-{
-	std::vector<StmtIfConditional> chains;
-};
+struct StmtIf { std::vector<StmtIfConditional> chains; };
 
 struct StmtFn
 {
@@ -153,15 +153,9 @@ struct StmtCall
 	std::vector<std::shared_ptr<ExprNode> > const args;
 };
 
-struct StmtReturn
-{
-	std::shared_ptr<ExprNode> expr;
-};
+struct StmtReturn { std::shared_ptr<ExprNode> expr; };
 
-enum class StmtLoopSectionType
-{
-	INIT, RANGE, CONDITIONAL
-};
+enum class StmtLoopSectionType { INIT, RANGE, CONDITIONAL };
 
 struct StmtLoopSection
 {
@@ -179,14 +173,8 @@ struct StmtLoop
 
 enum class StmtType
 {
-	INIT,
-	ASSIGN,
-	METHOD,
-	IF,
-	FN,
-	CALL,
-	RETURN,
-	LOOP
+	INIT, ASSIGN, METHOD, IF,
+	FN, CALL, RETURN, LOOP
 };
 
 struct Stmt
@@ -218,11 +206,7 @@ struct Scope
 	{
 		for (Scope<VarContainer>* curr_scope = this; curr_scope != nullptr;)
 		{
-			for (auto& var : curr_scope->vars)
-			{
-				if (var.first == name)
-					return &var;
-			}
+			for (auto& v : curr_scope->vars) { if (v.first == name) return &v; }
 
 			curr_scope = curr_scope->upper;
 		}

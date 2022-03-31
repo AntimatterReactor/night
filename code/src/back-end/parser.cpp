@@ -5,7 +5,6 @@
 #include "error.hpp"
 #include "util.hpp"
 
-#include <functional>
 #include <memory>
 #include <algorithm>
 #include <iterator>
@@ -232,6 +231,8 @@ Stmt Parser::parse_stmt_var(ParserScope& scope)
 
 				auto const [arg_exprs, arg_types] =
 					parse_arguments(scope, method_name);
+				
+				auto const argx_size = arg_exprs.size();
 
 				// definition checking method call based on name and argument types
 
@@ -246,7 +247,7 @@ Stmt Parser::parse_stmt_var(ParserScope& scope)
 						check_class.second.methods,
 						[&](auto const& method) {
 							return method.first == method_name &&
-								method.second.param_types.size() == arg_exprs.size();
+								method.second.param_types.size() == argx_size;
 						}
 					);
 
@@ -956,7 +957,7 @@ Parser::parse_expression(
 						parse_arguments(scope, var_name);
 
 					curr->type = ExprNode::CALL;
-					curr->data = ValueCall(var_name, arg_exprs);
+					curr->data = ValueCall({var_name, arg_exprs});
 				}
 				else if (token.type == TokenType::OPEN_SQUARE)
 				{	
@@ -1148,10 +1149,7 @@ Parser::parse_expression(
 	}
 }
 
-bool
-Parser::higher_precedence(
-	std::string const& op1,
-	std::string const& op2) const
+bool Parser::higher_precedence( std::string const& op1, std::string const& op2) const
 {
 	std::vector<std::unordered_set<std::string> > const operators{
 		{ ".." },
